@@ -37,3 +37,11 @@ You can and should continue doing changes and commiting them until you're please
 
 will send in all commits you made after you cloned the repository.
 
+## Howto Terraform
+### Install & configure terraform
+### terraform project lifecycle
+    terraform init
+    terraform plan
+    terraform apply
+    terraform destroy
+
