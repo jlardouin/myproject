@@ -1,4 +1,4 @@
-# main.tf
+# main.tf is the main source code
 
 # Create an Elastic Cloud Server resource
 resource "flexibleengine_compute_instance_v2" "test-server" {

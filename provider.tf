@@ -1,4 +1,4 @@
-# provider.tf
+# provider.tf to define the Terraform Provider
 terraform {
   required_providers {
     flexibleengine = {
