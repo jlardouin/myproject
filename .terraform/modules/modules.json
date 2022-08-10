@@ -1,1 +1,0 @@
-{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"ecs_cluster","Source":"registry.terraform.io/FlexibleEngineCloud/ecs/flexibleengine","Version":"2.0.5","Dir":".terraform/modules/ecs_cluster"}]}
