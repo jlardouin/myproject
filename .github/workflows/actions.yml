@@ -21,11 +21,8 @@ jobs:
 
     - name: Terraform init
       env:
-        AK: ${{ secrets.AK }}
-        SK: ${{ secrets.SK }}
-        DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
-        REGION: ${{ secrets.REGION }}
-        TENANT_NAME: ${{ secrets.TENANT_NAME }}
+        access_key: ${{ secrets.AK }}
+        secret_key: ${{ secrets.SK }}
       run: terraform init -input=false
 
     - name: Terraform validation
@@ -33,9 +30,6 @@ jobs:
 
     - name: Terraform apply
       env:
-        AK: ${{ secrets.AK }}
-        SK: ${{ secrets.SK }}
-        DOMAIN_NAME: ${{ secrets.DOMAIN_NAME }}
-        REGION: ${{ secrets.REGION }}
-        TENANT_NAME: ${{ secrets.TENANT_NAME }}
+        access_key: ${{ secrets.AK }}
+        secret_key: ${{ secrets.SK }}
       run: terraform apply -auto-approve -input=false
