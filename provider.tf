@@ -8,9 +8,9 @@ terraform {
 }
 # Configure the FlexibleEngine Provider with AK/SK
  provider "flexibleengine" {
-#  domain_name = var.domain_name
-#  region      = var.region
-#  tenant_name = var.tenant_name
+  domain_name = "OCB0001661"
+  region      = "eu-west-0"
+  tenant_name = "eu-wes-0_jla"
 #  access_key  = var.ak
 #  secret_key  = var.sk
 }
