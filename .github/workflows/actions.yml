@@ -35,4 +35,5 @@ jobs:
       env:
         access_key: ${{ secrets.AK }}
         secret_key: ${{ secrets.SK }}
-      run: terraform apply -auto-approve -input=false
+      #run: terraform apply -auto-approve -input=false
+      run: terraform apply
