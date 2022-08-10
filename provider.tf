@@ -11,6 +11,6 @@ terraform {
   domain_name = var.domain_name
   region      = var.region
   tenant_name = var.tenant_name
-  access_key  = var.access_key
-  secret_key  = var.secret_key
+#  access_key  = var.access_key
+#  secret_key  = var.secret_key
 }
