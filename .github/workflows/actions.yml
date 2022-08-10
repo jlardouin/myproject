@@ -26,6 +26,8 @@ jobs:
       run: terraform init -input=false
 
     - name: Terraform validation
+        access_key: ${{ secrets.AK }}
+        secret_key: ${{ secrets.SK }}
       run: terraform validate
 
     - name: Terraform apply
