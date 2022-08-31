@@ -1,7 +1,8 @@
 # provider.tf to define the Terraform Provider
 terraform {
   backend "remote" {
-    organization = "flexibleengine-sme"    workspaces {
+    organization = "flexibleengine-sme"
+    workspaces {
       name = "myproject"
     }
    }
