@@ -1,5 +1,10 @@
 # provider.tf to define the Terraform Provider
 terraform {
+  backend "remote" {
+    organization = "flexibleengine-sme"    workspaces {
+      name = "myproject"
+    }
+   }
   required_providers {
     flexibleengine = {
       source = "FlexibleEngineCloud/flexibleengine"
