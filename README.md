@@ -1,4 +1,11 @@
 # Howto
+This project is a sample of a simple terraform deployment on Flexible Engine (a single Ubuntu ECS attached to a fix subnet)
+The goal is to manage :
+- a git project 
+- a github repo
+- a terraform plan
+- a github action workflow
+
 ## Howto git
 https://www.thorandco.fr/?p=792
 
