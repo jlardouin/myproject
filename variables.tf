@@ -16,8 +16,8 @@ variable "project" {
 }
 
 variable "remote_ip" {
-  default = "90.84.172.45/32"
-  description = "remote IP allowed for ssh access to Bastion"
+  default = "90.84.198.86/32"
+  description = "remote IP allowed for ssh access to Bastion, restricted to my Guacamole Desktop"
 }
 
 variable "any_ip" {
