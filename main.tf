@@ -173,7 +173,7 @@ resource "flexibleengine_compute_instance_v2" "instance" {
   flavor_id         = "s6.large.2"
   key_pair          = flexibleengine_compute_keypair_v2.keypair.name
   security_groups   = [flexibleengine_networking_secgroup_v2.secgroup.name]
-  user_data = data.template_cloudinit_config.config.rendered
+#  user_data = data.template_cloudinit_config.config.rendered
   availability_zone = "eu-west-0a"
   network {
     uuid = flexibleengine_networking_network_v2.front_net.id
