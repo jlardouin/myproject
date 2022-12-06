@@ -11,7 +11,7 @@ variable "tenant_name" {
   description = "tenant name of the domain to be refered"
 }
 variable "project" {
-  default = "demo"
+  default = "my"
   description = "Short descriptive, readable label of the project you are working on. Is utilized as a part of resource names."
 }
 

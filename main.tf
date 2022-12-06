@@ -138,7 +138,6 @@ resource "flexibleengine_networking_secgroup_rule_v2" "ssh_rule_ingress4" {
   remote_ip_prefix  = "${var.remote_ip}"
   security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
 }
-
 # Add rules to access MySQL
 #resource "flexibleengine_networking_secgroup_rule_v2" "mysql_rule_ingress4" {
 #  direction         = "ingress"
@@ -150,15 +149,6 @@ resource "flexibleengine_networking_secgroup_rule_v2" "ssh_rule_ingress4" {
 #  security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
 #}
 # security group rule to access Bastion
-resource "flexibleengine_networking_secgroup_rule_v2" "bastion_rule_ingress4" {
-  direction         = "ingress"
-  ethertype         = "IPv4"
-  protocol          = "tcp"
-  port_range_min    = "${var.guacamole_port}"
-  port_range_max    = "${var.guacamole_port}"
-  remote_ip_prefix  = "${var.any_ip}"
-  security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
-}
 resource "flexibleengine_networking_secgroup_rule_v2" "secgroup_rule_ingress6" {
   direction         = "ingress"
   ethertype         = "IPv6"
