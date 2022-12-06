@@ -112,7 +112,7 @@ resource "flexibleengine_nat_snat_rule_v2" "snat_2" {
 }
 
 # Bastion creation : in the Frontend subnet
-# Create an Elastic IP for Bastion VM
+# 1. Create an Elastic IP for Bastion VM
 resource "flexibleengine_vpc_eip_v1" "eip" {
   publicip {
     type = "5_bgp"
@@ -124,11 +124,11 @@ resource "flexibleengine_vpc_eip_v1" "eip" {
     charge_mode = "traffic"
   }
 }
-# Create security group
+# 2.1. Create security group
 resource "flexibleengine_networking_secgroup_v2" "secgroup" {
   name = "${var.project}-secgroup-${random_string.id.result}"
 }
-# Add rules to the security group
+# 2.2. Add rules to the security group
 resource "flexibleengine_networking_secgroup_rule_v2" "ssh_rule_ingress4" {
   direction         = "ingress"
   ethertype         = "IPv4"
@@ -138,24 +138,14 @@ resource "flexibleengine_networking_secgroup_rule_v2" "ssh_rule_ingress4" {
   remote_ip_prefix  = "${var.remote_ip}"
   security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
 }
-# Add rules to access MySQL
-#resource "flexibleengine_networking_secgroup_rule_v2" "mysql_rule_ingress4" {
-#  direction         = "ingress"
-#  ethertype         = "IPv4"
-#  protocol          = "tcp"
-#  port_range_min    = "${var.mysql_port}"
-#  port_range_max    = "${var.mysql_port}"
-#  remote_ip_prefix  = "${var.back_subnet_cidr}"
-#  security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
-#}
-# security group rule to access Bastion
+# 2.3. security group rule to access Bastion
 resource "flexibleengine_networking_secgroup_rule_v2" "secgroup_rule_ingress6" {
   direction         = "ingress"
   ethertype         = "IPv6"
   security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
 }
 
-# Create VM
+# 3.Create ECS for Bastion
 resource "flexibleengine_compute_instance_v2" "instance" {
   depends_on = [time_sleep.wait_for_vpc]
   name              = "${var.project}-bastion-${random_string.id.result}"
@@ -168,7 +158,9 @@ resource "flexibleengine_compute_instance_v2" "instance" {
     uuid = flexibleengine_networking_network_v2.front_net.id
   }
   block_device { # Boots from volume
-    uuid                  = "c2280a5f-159f-4489-a107-7cf0c7efdb21"
+    # Ubuntu 20.04 OS Image  
+    #uuid                  = "c2280a5f-159f-4489-a107-7cf0c7efdb21"
+    uuid                  = "${var.bastion_os}"
     source_type           = "image"
     volume_size           = "40"
     boot_index            = 0
@@ -183,15 +175,14 @@ resource "flexibleengine_compute_floatingip_associate_v2" "fip_1" {
   instance_id = flexibleengine_compute_instance_v2.instance.id
 }
 
-# Create an Elastic Cloud Server resource
-# Create an Elastic Cloud Server resource
-# resource "flexibleengine_compute_instance_v2" "test-server" {
-#   name        = "githubactions-server"
-#   image_name  = "OBS Ubuntu 20.04"
-#   flavor_name = "s6.small.1"
-#   key_pair    = "key-jla"
-#   security_groups = ["default"]
-#   network {
-#     uuid = "5dea92aa-0d97-443c-8e03-a2f566bc6cc6"
-#   }
-# }
+# RDS MySQL creation
+# Add rules to access MySQL
+#resource "flexibleengine_networking_secgroup_rule_v2" "mysql_rule_ingress4" {
+#  direction         = "ingress"
+#  ethertype         = "IPv4"
+#  protocol          = "tcp"
+#  port_range_min    = "${var.mysql_port}"
+#  port_range_max    = "${var.mysql_port}"
+#  remote_ip_prefix  = "${var.back_subnet_cidr}"
+#  security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
+#}

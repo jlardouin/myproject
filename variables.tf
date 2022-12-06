@@ -35,11 +35,6 @@ variable "mysql_port" {
   description = "ssh port to access Bastion."
 }
 
-variable "guacamole_port" {
-  default = "8443"
-  description = "HTTPS access to Guacamole"
-}
-
 variable "vpc_cidr" {
   default = "192.168.0.0/16"
   description = "VPC CIDR."
@@ -72,7 +67,13 @@ resource "random_string" "id" {
   upper   = false
 }
 
+variable "bastion_os" {
+  description = "OS to use for the Bastion : Ubuntu 20.04"
+  default     = "c2280a5f-159f-4489-a107-7cf0c7efdb21"
+}
+
 variable "cloud_init_path" {
   description = "Path to directory with custom Cloud-init configuration. Cloud-init cloud config format is expected. Only *.yml and *.yaml files will be read."
+  
   default     = "./"
 }
