@@ -1,11 +1,16 @@
 # main.tf is the main source code
 
+resource "flexibleengine_obs_bucket" "admin_bucket" {
+  bucket     = "${var.project}-jla-${random_string.id.result}"
+  acl        = "private"
+  versioning = true
+}
+
 # Creation of a Key Pair
 resource "tls_private_key" "key" {
   algorithm   = "RSA"
   rsa_bits = 4096
 }
-
 resource "flexibleengine_compute_keypair_v2" "keypair" {
   name       = "${var.project}-KeyPair-${random_string.id.result}"
   public_key = tls_private_key.key.public_key_openssh
