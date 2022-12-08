@@ -38,8 +38,3 @@ output "random_id" {
   value = random_string.id.result
   description = "random string value"
 }
-
-output "ELB_public_IP" {
-  value = flexibleengine_vpc_eip_v1.eip_elb.publicip[0].ip_address
-  description = "ELB public IP Address"    
-}
