@@ -25,5 +25,6 @@ You can run your terraform plan from your local desktop, initialising everything
     terraform destroy
 
 To enable Github Action & implement a IaaC interaction with Flexible Engine, we should set a basic wokflow using a Terraform Cloud workspace as a terraform runner   
-
+- Generated a TF_API_TOKEN in TF Cloud trhough User settings/Tokens
+- Configure it in Github/Secret/Actions for that project
 
