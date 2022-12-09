@@ -174,7 +174,7 @@ resource "flexibleengine_compute_instance_v2" "instance" {
   security_groups   = [flexibleengine_networking_secgroup_v2.secgroup.name]
   user_data = data.template_cloudinit_config.config.rendered
   availability_zone = "eu-west-0a"
-  agency = flexibleengine_identity_agency_v3.agency.name
+  #agency = flexibleengine_identity_agency_v3.agency.name
   network {
     uuid = flexibleengine_networking_network_v2.front_net.id
   }
