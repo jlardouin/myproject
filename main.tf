@@ -177,7 +177,8 @@ resource "flexibleengine_compute_instance_v2" "instance" {
   security_groups   = [flexibleengine_networking_secgroup_v2.secgroup.name]
   user_data = data.template_cloudinit_config.config.rendered
   availability_zone = "eu-west-0a"
-  agency_name = flexibleengine_identity_agency_v3.agency.name
+  # Seems to be available in HC but not in FE Provider... cf. https://github.com/huaweicloud/terraform-provider-huaweicloud/blob/master/docs/resources/compute_instance.md
+  # agency_name = flexibleengine_identity_agency_v3.agency.name
   network {
     uuid = flexibleengine_networking_network_v2.front_net.id
   }
