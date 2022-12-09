@@ -1,3 +1,3 @@
 #!/bin/bash
-rm -f keypair.pem
+rm -f ~/.ssh/keypair.pem
 rm -f config

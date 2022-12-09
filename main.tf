@@ -1,4 +1,7 @@
-# main.tf is the main source code
+# main.tf is the main Terraform source code to set my project on Flexible Engine
+# 
+
+
 
 resource "flexibleengine_obs_bucket" "admin_bucket" {
   bucket     = "${var.project}-jla-${random_string.id.result}"
@@ -25,7 +28,8 @@ resource "flexibleengine_compute_keypair_v2" "keypair" {
 # Create an Agency to delegate Cloud Service to access cloud ressources in other Cloud services
 resource "flexibleengine_identity_agency_v3" "agency" {
   name                   = "${var.project}-Agency-${random_string.id.result}"
-  description            = "Agency for enabling intrecation between ECS and HSS/LTS/CES"
+  description            = "Agency for enabling interaction between ECS and HSS/LTS/CES"
+  # To enable Cloud Service for ECS, set delegated_service_name to "op_svc_ecs"
   delegated_service_name = "op_svc_ecs"
 
   project_role {
@@ -35,7 +39,6 @@ resource "flexibleengine_identity_agency_v3" "agency" {
     ]
   }
 }
-
 
 ## Network configuration : config is
 # 1. One single VPC with
@@ -174,7 +177,7 @@ resource "flexibleengine_compute_instance_v2" "instance" {
   security_groups   = [flexibleengine_networking_secgroup_v2.secgroup.name]
   user_data = data.template_cloudinit_config.config.rendered
   availability_zone = "eu-west-0a"
-  #agency = flexibleengine_identity_agency_v3.agency.name
+  agency_name = flexibleengine_identity_agency_v3.agency.name
   network {
     uuid = flexibleengine_networking_network_v2.front_net.id
   }
