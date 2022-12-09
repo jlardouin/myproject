@@ -195,15 +195,3 @@ resource "flexibleengine_compute_floatingip_associate_v2" "fip_1" {
   floating_ip = flexibleengine_vpc_eip_v1.eip.publicip.0.ip_address
   instance_id = flexibleengine_compute_instance_v2.instance.id
 }
-
-# RDS MySQL creation
-# Add rules to access MySQL
-#resource "flexibleengine_networking_secgroup_rule_v2" "mysql_rule_ingress4" {
-#  direction         = "ingress"
-#  ethertype         = "IPv4"
-#  protocol          = "tcp"
-#  port_range_min    = "${var.mysql_port}"
-#  port_range_max    = "${var.mysql_port}"
-#  remote_ip_prefix  = "${var.back_subnet_cidr}"
-#  security_group_id = flexibleengine_networking_secgroup_v2.secgroup.id
-#}
