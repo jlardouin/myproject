@@ -26,7 +26,7 @@ resource "flexibleengine_compute_keypair_v2" "keypair" {
 resource "flexibleengine_identity_agency_v3" "agency" {
   name                   = "${var.project}-Agency-${random_string.id.result}"
   description            = "Agency for enabling intrecation between ECS and HSS/LTS/CES"
-  delegated_service_name = "ECS"
+  delegated_service_name = "op_svc_ecs"
 
   project_role {
     project = "${var.tenant_name}"
