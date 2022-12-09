@@ -25,8 +25,8 @@ resource "flexibleengine_compute_keypair_v2" "keypair" {
 # Create an Agency to delegate Cloud Service to access cloud ressources in other Cloud services
 resource "flexibleengine_identity_agency_v3" "agency" {
   name                   = "${var.project}-Agency-${random_string.id.result}"
-  description            = "this is a service test agency"
-  delegated_service_name = "op_svc_evs"
+  description            = "Agency for enabling intrecation between ECS and HSS/LTS/CES"
+  delegated_service_name = "ECS"
 
   project_role {
     project = "${var.tenant_name}"
@@ -34,9 +34,6 @@ resource "flexibleengine_identity_agency_v3" "agency" {
       "Tenant Administrator",
     ]
   }
-  domain_roles = [
-    "OBS OperateAccess",
-  ]
 }
 
 
