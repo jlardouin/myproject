@@ -22,6 +22,24 @@ resource "flexibleengine_compute_keypair_v2" "keypair" {
   }
 }
 
+# Create an Agency to delegate Cloud Service to access cloud ressources in other Cloud services
+resource "flexibleengine_identity_agency_v3" "agency" {
+  name                   = "${var.project}-Agency-${random_string.id.result}"
+  description            = "this is a service test agency"
+  delegated_service_name = "op_svc_evs"
+
+  project_role {
+    project = "${var.tenant_name}"
+    roles = [
+      "Tenant Administrator",
+    ]
+  }
+  domain_roles = [
+    "OBS OperateAccess",
+  ]
+}
+
+
 ## Network configuration : config is
 # 1. One single VPC with
 # 2. Two Network (Frontend & Backend)
