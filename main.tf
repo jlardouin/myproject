@@ -23,18 +23,18 @@ resource "flexibleengine_compute_keypair_v2" "keypair" {
 }
 
 # Create an Agency to delegate Cloud Service to access cloud ressources in other Cloud services
-#resource "flexibleengine_identity_agency_v3" "agency" {
-#  name                   = "${var.project}-Agency-${random_string.id.result}"
-#  description            = "Agency for enabling intrecation between ECS and HSS/LTS/CES"
-#  delegated_service_name = "op_svc_ecs"
+resource "flexibleengine_identity_agency_v3" "agency" {
+  name                   = "${var.project}-Agency-${random_string.id.result}"
+  description            = "Agency for enabling intrecation between ECS and HSS/LTS/CES"
+  delegated_service_name = "op_svc_ecs"
 
-#  project_role {
-#    project = "${var.tenant_name}"
-#    roles = [
-#      "Tenant Administrator",
-#    ]
-#  }
-#}
+  project_role {
+    project = "${var.tenant_name}"
+    roles = [
+      "Tenant Administrator",
+    ]
+  }
+}
 
 
 ## Network configuration : config is
@@ -174,6 +174,7 @@ resource "flexibleengine_compute_instance_v2" "instance" {
   security_groups   = [flexibleengine_networking_secgroup_v2.secgroup.name]
   user_data = data.template_cloudinit_config.config.rendered
   availability_zone = "eu-west-0a"
+  agency = flexibleengine_identity_agency_v3.agency.name
   network {
     uuid = flexibleengine_networking_network_v2.front_net.id
   }
