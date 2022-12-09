@@ -27,4 +27,11 @@ You can run your terraform plan from your local desktop, initialising everything
 To enable Github Action & implement a IaaC interaction with Flexible Engine, we should set a basic wokflow using a Terraform Cloud workspace as a terraform runner   
 - Generated a TF_API_TOKEN in TF Cloud trhough User settings/Tokens
 - Configure it in Github/Secret/Actions for that project
+- Create a .github/worklows/terraform.yml to defin the TF workflow
+
+## Howto use the infra
+To connect the BASTION, you should get back the private key of the keypair generated from TF Cloud
+    terraform login
+    script/start.sh
+
 
