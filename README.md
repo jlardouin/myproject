@@ -29,7 +29,12 @@ To enable Github Action & implement a IaaC interaction with Flexible Engine, we 
 - Configure it in Github/Secret/Actions for that project
 - Create a .github/worklows/terraform.yml to defin the TF workflow
 
+tfstate is setup on the TF Cloud runner
+
 ## Howto use the infra
+### Which infra is built through that project
+A main project is defining
+
 To connect the BASTION, you should get back the private key of the keypair generated from TF Cloud
     terraform login
     script/start.sh
