@@ -172,7 +172,7 @@ resource "flexibleengine_networking_secgroup_rule_v2" "secgroup_rule_ingress6" {
 resource "flexibleengine_compute_instance_v2" "instance" {
   depends_on = [time_sleep.wait_for_vpc]
   name              = "${var.project}-bastion-${random_string.id.result}"
-  flavor_id         = "s6.large.2"
+  flavor_id         = "s6.xlarge.4"
   key_pair          = flexibleengine_compute_keypair_v2.keypair.name
   security_groups   = [flexibleengine_networking_secgroup_v2.secgroup.name]
   user_data = data.template_cloudinit_config.config.rendered
