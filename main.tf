@@ -156,7 +156,7 @@ resource "flexibleengine_vpc_eip_v1" "eip_elb" {
   }
 }
 
-# 6.3. Create a Listener for the ELB, to loadbalance the docker
+# 6.3. Create a Listener for the ELB
 resource "flexibleengine_lb_listener_v2" "listener" {
   loadbalancer_id  = flexibleengine_lb_loadbalancer_v2.elb.id
   name             = "${var.project}-ELB-Listener${random_string.id.result}"
@@ -165,6 +165,17 @@ resource "flexibleengine_lb_listener_v2" "listener" {
   protocol_port    = 12345
 }
 
+# 6.4. Create a ppol for the ELB
+resource "flexibleengine_lb_pool_v2" "pool_1" {
+  protocol    = "TCP"
+  lb_method   = "ROUND_ROBIN"
+  listener_id = flexibleengine_lb_listener_v2.listener.id
+
+  persistence {
+    type        = "HTTP_COOKIE"
+    cookie_name = "testCookie"
+  }
+}
 
 # Bastion creation : in the Frontend subnet
 # 1. Create an Elastic IP for Bastion VM
