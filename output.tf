@@ -4,7 +4,12 @@ output "bastion_public_IP" {
 }
 
 output "bastion_private_IP" {
-  value = flexibleengine_compute_instance_v2.instance.access_ip_v4
+  value = flexibleengine_compute_instance_v2.bastion.access_ip_v4
+  description = "Guacamole Private IP Address"  
+}
+
+output "bastion_private_IP" {
+  value = flexibleengine_compute_instance_v2.docker.access_ip_v4
   description = "Guacamole Private IP Address"  
 }
 

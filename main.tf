@@ -225,7 +225,7 @@ resource "flexibleengine_compute_instance_v2" "docker" {
   }
 }
 
-#resource "flexibleengine_compute_floatingip_associate_v2" "fip_docker" {
-#  floating_ip = flexibleengine_vpc_eip_v1.eip.publicip.0.ip_address
-#  instance_id = flexibleengine_compute_instance_v2.docker.id
-#}
+resource "flexibleengine_compute_floatingip_associate_v2" "fip_docker" {
+  floating_ip = flexibleengine_vpc_eip_v1.eip.publicip.0.ip_address
+  instance_id = flexibleengine_compute_instance_v2.docker.id
+}
