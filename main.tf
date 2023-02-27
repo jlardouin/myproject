@@ -44,6 +44,7 @@ resource "flexibleengine_identity_agency_v3" "agency" {
 # 3. Two Subnet (Frontend & Backend)
 # 4. One router routing the Two subnet
 # 5. One NatGW with 1 SNAT for each subnet
+# 6. One ELB with 1 EIP
 #
 # 1. VPC Layer : Create Virtual Private Cloud
 resource "flexibleengine_vpc_v1" "vpc" {
@@ -132,9 +133,32 @@ resource "flexibleengine_nat_snat_rule_v2" "snat_2" {
   subnet_id      = flexibleengine_networking_network_v2.back_net.id
 }
 
+# 6.1. Create ELB
+resource "flexibleengine_lb_loadbalancer_v2" "elb_1" {
+  depends_on = [time_sleep.wait_for_vpc]  
+  description   = "ELB for project ${var.project} (${random_string.id.result})"
+  vip_subnet_id = flexibleengine_networking_network_v2.back_net.id
+  name = "${var.project}-ELB-${random_string.id.result}"
+
+}
+
+# 6.2. Create an Elastic IP for ELB
+resource "flexibleengine_vpc_eip_v1" "eip_elb" {
+  publicip {
+    type = "5_bgp"
+    port_id = flexibleengine_lb_loadbalancer_v2.elb_1.vip_port_id
+  }
+  bandwidth {
+    name        = "${var.project}-ELB-EIP-${random_string.id.result}"
+    size        = 8
+    share_type  = "PER"
+    charge_mode = "traffic"
+  }
+}
+
 # Bastion creation : in the Frontend subnet
 # 1. Create an Elastic IP for Bastion VM
-resource "flexibleengine_vpc_eip_v1" "eip" {
+resource "flexibleengine_vpc_eip_v1" "eip_bastion" {
   publicip {
     type = "5_bgp"
   }
@@ -198,6 +222,7 @@ resource "flexibleengine_compute_floatingip_associate_v2" "fip_bastion" {
   instance_id = flexibleengine_compute_instance_v2.bastion.id
 }
 
+# Docker creation : in the Backend subnet
 # 4.Create ECS for Docker
 resource "flexibleengine_compute_instance_v2" "docker" {
   depends_on = [time_sleep.wait_for_vpc]
@@ -223,9 +248,4 @@ resource "flexibleengine_compute_instance_v2" "docker" {
     delete_on_termination = true
     #volume_type           = "SSD"
   }
-}
-
-resource "flexibleengine_compute_floatingip_associate_v2" "fip_docker" {
-  floating_ip = flexibleengine_vpc_eip_v1.eip.publicip.0.ip_address
-  instance_id = flexibleengine_compute_instance_v2.docker.id
 }
