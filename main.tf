@@ -134,7 +134,7 @@ resource "flexibleengine_nat_snat_rule_v2" "snat_2" {
 }
 
 # 6.1. Create ELB
-resource "flexibleengine_lb_loadbalancer_v2" "elb_1" {
+resource "flexibleengine_lb_loadbalancer_v2" "elb" {
   depends_on = [time_sleep.wait_for_vpc]  
   description   = "ELB for project ${var.project} (${random_string.id.result})"
   vip_subnet_id = flexibleengine_networking_subnet_v2.back_subnet.id
@@ -146,7 +146,7 @@ resource "flexibleengine_lb_loadbalancer_v2" "elb_1" {
 resource "flexibleengine_vpc_eip_v1" "eip_elb" {
   publicip {
     type = "5_bgp"
-    port_id = flexibleengine_lb_loadbalancer_v2.elb_1.vip_port_id
+    port_id = flexibleengine_lb_loadbalancer_v2.elb.vip_port_id
   }
   bandwidth {
     name        = "${var.project}-ELB-EIP-${random_string.id.result}"
@@ -155,6 +155,19 @@ resource "flexibleengine_vpc_eip_v1" "eip_elb" {
     charge_mode = "traffic"
   }
 }
+
+# 6.3. Create a Listenr for the ELB, to loadbalance the docker
+resource "flexibleengine_elb_listener" "listener" {
+  loadbalancer_id  = flexibleengine_lb_loadbalancer_v2.elb.id
+  name             = "${var.project}-ELB-Listener${random_string.id.result}"
+  description      = "My listener"
+  protocol         = "TCP"
+  backend_protocol = "TCP"
+  protocol_port    = 12345
+  backend_port     = 8080
+  lb_algorithm     = "roundrobin"
+}
+
 
 # Bastion creation : in the Frontend subnet
 # 1. Create an Elastic IP for Bastion VM
