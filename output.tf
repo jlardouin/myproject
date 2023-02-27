@@ -1,5 +1,5 @@
 output "bastion_public_IP" {
-  value = flexibleengine_vpc_eip_v1.eip.publicip[0].ip_address
+  value = flexibleengine_vpc_eip_v1.eip_bastion.publicip.0.ip_address
   description = "Bastion Public IP Address"    
 }
 
@@ -8,9 +8,9 @@ output "bastion_private_IP" {
   description = "Bastion Private IP Address"  
 }
 
-output "docker_public_IP" {
-  value = flexibleengine_vpc_eip_v1.eip.publicip[0].ip_address
-  description = "Docker Public IP Address"    
+output "elb_id" {
+  description = "ID of the created vpc"
+  value       = flexibleengine_lb_loadbalancer_v2.elb_1.id
 }
 
 output "docker_private_IP" {
