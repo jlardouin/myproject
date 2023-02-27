@@ -166,13 +166,13 @@ resource "flexibleengine_lb_listener_v2" "listener" {
 }
 
 # 6.4. Create a ppol for the ELB
-resource "flexibleengine_lb_pool_v2" "pool_1" {
+resource "flexibleengine_lb_pool_v2" "pool" {
   protocol    = "TCP"
   lb_method   = "ROUND_ROBIN"
   listener_id = flexibleengine_lb_listener_v2.listener.id
 
   persistence {
-    type        = "HTTP_COOKIE"
+    type        = "APP_COOKIE"
     cookie_name = "testCookie"
   }
 }
