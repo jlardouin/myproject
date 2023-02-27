@@ -137,7 +137,7 @@ resource "flexibleengine_nat_snat_rule_v2" "snat_2" {
 resource "flexibleengine_lb_loadbalancer_v2" "elb_1" {
   depends_on = [time_sleep.wait_for_vpc]  
   description   = "ELB for project ${var.project} (${random_string.id.result})"
-  vip_subnet_id = flexibleengine_networking_network_v2.back_net.id
+  vip_subnet_id = flexibleengine_networking_subnet_v2.back_subnet.id
   name = "${var.project}-ELB-${random_string.id.result}"
 
 }
