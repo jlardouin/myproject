@@ -72,6 +72,11 @@ variable "bastion_os" {
   default     = "c2280a5f-159f-4489-a107-7cf0c7efdb21"
 }
 
+variable "docker_os" {
+  description = "OS to use for the Bastion : Ubuntu 20.04"
+  default     = "c2280a5f-159f-4489-a107-7cf0c7efdb21"
+}
+
 variable "cloud_init_path" {
   description = "Path to directory with custom Cloud-init configuration. Cloud-init cloud config format is expected. Only *.yml and *.yaml files will be read."
   
