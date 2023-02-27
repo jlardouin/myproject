@@ -156,7 +156,7 @@ resource "flexibleengine_vpc_eip_v1" "eip_elb" {
   }
 }
 
-# 6.3. Create a Listenr for the ELB, to loadbalance the docker
+# 6.3. Create a Listener for the ELB, to loadbalance the docker
 resource "flexibleengine_elb_listener" "listener" {
   loadbalancer_id  = flexibleengine_lb_loadbalancer_v2.elb.id
   name             = "${var.project}-ELB-Listener${random_string.id.result}"

@@ -10,7 +10,7 @@ output "bastion_private_IP" {
 
 output "elb_id" {
   description = "ID of the created vpc"
-  value       = flexibleengine_lb_loadbalancer_v2.elb_1.id
+  value       = flexibleengine_lb_loadbalancer_v2.elb.id
 }
 
 output "docker_private_IP" {
