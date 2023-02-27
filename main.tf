@@ -167,7 +167,7 @@ resource "flexibleengine_networking_secgroup_rule_v2" "secgroup_rule_ingress6" {
 }
 
 # 3.Create ECS for Bastion
-resource "flexibleengine_compute_instance_v2" "instance" {
+resource "flexibleengine_compute_instance_v2" "bastion" {
   depends_on = [time_sleep.wait_for_vpc]
   name              = "${var.project}-bastion-${random_string.id.result}"
   flavor_id         = "s6.medium.2"
@@ -193,13 +193,13 @@ resource "flexibleengine_compute_instance_v2" "instance" {
   }
 }
 
-resource "flexibleengine_compute_floatingip_associate_v2" "fip_1" {
+resource "flexibleengine_compute_floatingip_associate_v2" "fip_bastion" {
   floating_ip = flexibleengine_vpc_eip_v1.eip.publicip.0.ip_address
   instance_id = flexibleengine_compute_instance_v2.instance.id
 }
 
 # 4.Create ECS for Docker
-resource "flexibleengine_compute_instance_v2" "instance" {
+resource "flexibleengine_compute_instance_v2" "docker" {
   depends_on = [time_sleep.wait_for_vpc]
   name              = "${var.project}-docker-${random_string.id.result}"
   flavor_id         = "s6.medium.2"
@@ -225,7 +225,7 @@ resource "flexibleengine_compute_instance_v2" "instance" {
   }
 }
 
-resource "flexibleengine_compute_floatingip_associate_v2" "fip_1" {
+resource "flexibleengine_compute_floatingip_associate_v2" "fip_docker" {
   floating_ip = flexibleengine_vpc_eip_v1.eip.publicip.0.ip_address
   instance_id = flexibleengine_compute_instance_v2.instance.id
 }
