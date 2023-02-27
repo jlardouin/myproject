@@ -9,7 +9,7 @@ output "bastion_private_IP" {
 }
 
 output "docker_public_IP" {
-  value = flexibleengine_vpc_eip_v1.eip.publicip[1].ip_address
+  value = flexibleengine_vpc_eip_v1.eip.publicip[0].ip_address
   description = "Docker Public IP Address"    
 }
 
