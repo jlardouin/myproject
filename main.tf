@@ -1,8 +1,6 @@
 # main.tf is the main Terraform source code to set my project on Flexible Engine
 # 
 
-
-
 resource "flexibleengine_obs_bucket" "admin_bucket" {
   bucket     = "${var.project}-jla-${random_string.id.result}"
   acl        = "private"
@@ -188,6 +186,38 @@ resource "flexibleengine_compute_instance_v2" "instance" {
     uuid                  = "${var.bastion_os}"
     source_type           = "image"
     volume_size           = "40"
+    boot_index            = 0
+    destination_type      = "volume"
+    delete_on_termination = true
+    #volume_type           = "SSD"
+  }
+}
+
+resource "flexibleengine_compute_floatingip_associate_v2" "fip_1" {
+  floating_ip = flexibleengine_vpc_eip_v1.eip.publicip.0.ip_address
+  instance_id = flexibleengine_compute_instance_v2.instance.id
+}
+
+# 4.Create ECS for Docker
+resource "flexibleengine_compute_instance_v2" "instance" {
+  depends_on = [time_sleep.wait_for_vpc]
+  name              = "${var.project}-docker-${random_string.id.result}"
+  flavor_id         = "s6.medium.2"
+  key_pair          = flexibleengine_compute_keypair_v2.keypair.name
+  security_groups   = [flexibleengine_networking_secgroup_v2.secgroup.name]
+  user_data = data.template_cloudinit_config.config.rendered
+  availability_zone = "eu-west-0a"
+  # Seems to be available in HC but not in FE Provider... cf. https://github.com/huaweicloud/terraform-provider-huaweicloud/blob/master/docs/resources/compute_instance.md
+  # agency_name = flexibleengine_identity_agency_v3.agency.name
+  network {
+    uuid = flexibleengine_networking_network_v2.back_net.id
+  }
+  block_device { # Boots from volume
+    # Ubuntu 20.04 OS Image  
+    #uuid                  = "c2280a5f-159f-4489-a107-7cf0c7efdb21"
+    uuid                  = "${var.docker_os}"
+    source_type           = "image"
+    volume_size           = "200"
     boot_index            = 0
     destination_type      = "volume"
     delete_on_termination = true
