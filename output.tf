@@ -1,16 +1,21 @@
 output "bastion_public_IP" {
   value = flexibleengine_vpc_eip_v1.eip.publicip[0].ip_address
-  description = "Bastion public IP Address"    
+  description = "Bastion Public IP Address"    
 }
 
 output "bastion_private_IP" {
   value = flexibleengine_compute_instance_v2.bastion.access_ip_v4
-  description = "Guacamole Private IP Address"  
+  description = "Bastion Private IP Address"  
 }
 
-output "bastion_private_IP" {
+output "docker_public_IP" {
+  value = flexibleengine_vpc_eip_v1.eip.publicip[1].ip_address
+  description = "Docker Public IP Address"    
+}
+
+output "docker_private_IP" {
   value = flexibleengine_compute_instance_v2.docker.access_ip_v4
-  description = "Guacamole Private IP Address"  
+  description = "Docker Private IP Address"  
 }
 
 output "keypair_name" {
